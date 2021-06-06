@@ -2,14 +2,8 @@ import Ajax from './ajax';
 
 const Request = {
   Auth: {
-    login(param) {
-      return Ajax.postJson('/auth/jwt/login', param);
-    },
     changePassword(params) {
-      return Ajax.postJson('/auth/reset-password', params);
-    },
-    getCurrentUser(params) {
-      return Ajax.get('/auth/me', params);
+      return Ajax.post('/reset-password', params);
     }
   },
   Dashboard: {
@@ -47,13 +41,16 @@ const Request = {
       return Ajax.get('/users/' + id, params);
     },
     add(params) {
-      return Ajax.postJson('/users', params);
+      return Ajax.post('/users', params);
     },
     update(id, params) {
-      return Ajax.patchJson('/users/' + id, params);
+      return Ajax.put('/users/' + id, params);
     },
     delete(id) {
       return Ajax.delete('/users/' + id);
+    },
+    getCurrentUser(params) {
+      return Ajax.get('/users/me', params);
     }
   }
 };

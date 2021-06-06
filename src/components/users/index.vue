@@ -32,8 +32,12 @@
         </div>
         <Table ref="table" :datas="users" stripe :loading="loading">
           <TableItem title="ID" prop="id" :width="100" sort="auto"></TableItem>
-          <TableItem title="邮箱" prop="email" :width="200"></TableItem>
-          <TableItem title="用户名" prop="name" :width="200"></TableItem>
+          <TableItem title="用户名" prop="username" :width="200"></TableItem>
+          <TableItem title="活动" :width="200">
+            <template v-slot:default="user">
+              <Checkbox v-model="user.data.is_active" disabled></Checkbox>
+            </template>
+          </TableItem>
           <TableItem title="操作" align="center" :width="150">
             <template v-slot:default="user">
               <button class="h-btn h-btn-s" @click="openUserDetail(user.data)">
@@ -76,9 +80,8 @@ export default {
       this.loading = true;
       return R.Users.getAll(name)
         .then(resp => {
-          let { users } = resp;
-          if (users) {
-            this.users = users;
+          if (resp) {
+            this.users = resp;
             this.$refs.table.triggerSort({ prop: 'id', type: 'asc' }, 'auto');
           }
         })
@@ -132,6 +135,10 @@ export default {
           if (resp.body) {
             this.$Message(resp.body.message);
           }
+          if (id === this.$store.user.id) {
+            this.$store.dispatch('logout');
+            this.$router.replace({ name: 'Login' });
+          }
         })
         .catch(err => {
           if (err.response && err.response.message) {
@@ -143,7 +150,7 @@ export default {
         });
     },
     openUserDetail(user) {
-      let newUser = { email: null, name: null };
+      let newUser = { name: null, is_active: true };
       this.$Modal({
         component: {
           vue: UserDetail,

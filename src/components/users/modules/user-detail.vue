@@ -4,14 +4,14 @@
     <header class="h-modal-header">{{ register ? '添加' : '编辑' }}用户</header>
     <div style="padding:15px">
       <Form ref="form" :model="data" :rules="rules">
-        <FormItem label="邮箱" prop="email">
-          <input type="email" v-model="data.email" />
-        </FormItem>
-        <FormItem label="用户名" prop="name">
-          <input type="text" v-model="data.name" />
+        <FormItem label="用户名" prop="username">
+          <input type="text" v-model="data.username" />
         </FormItem>
         <FormItem label="密码" prop="password">
           <input type="password" v-model="data.password" />
+        </FormItem>
+        <FormItem label="活动" prop="is_active">
+          <H-switch v-model="data.is_active"></H-switch>
         </FormItem>
       </Form>
     </div>
@@ -33,8 +33,9 @@ export default {
     return {
       id: this.user.id,
       data: {
-        name: this.user.name,
-        password: null
+        username: this.user.username,
+        password: null,
+        is_active: this.user.is_active
       }
     };
   },
@@ -52,11 +53,11 @@ export default {
   },
   computed: {
     register: function() {
-      return this.id === null;
+      return !this.id;
     },
     rules: function() {
       return {
-        required: this.register ? ['name', 'password'] : ['name']
+        required: this.register ? ['username', 'password'] : ['username']
       };
     }
   }

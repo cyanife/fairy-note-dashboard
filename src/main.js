@@ -9,7 +9,7 @@ import './common/filters';
 require('./css/app.less');
 
 // 使用mock文件， 自己开发的时候请删除
-require('./mock/index');
+// require('./mock/index');
 
 Vue.config.productionTip = false;
 Vue.use(HeyUI);

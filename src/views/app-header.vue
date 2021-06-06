@@ -138,7 +138,6 @@ export default {
     },
     trigger(data) {
       if (data == 'logout') {
-        localStorage.removeItem('token');
         this.$store.dispatch('logout');
         this.$router.replace({ name: 'Login' });
       } else {

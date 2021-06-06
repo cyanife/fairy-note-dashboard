@@ -90,6 +90,7 @@ const initRouter = () => {
           try {
             await store.dispatch('updateUser');
             if (store.getters.isAuthed) {
+              console.log('here');
               next();
             } else {
               next({ name: 'Login' });

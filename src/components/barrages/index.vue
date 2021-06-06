@@ -59,8 +59,8 @@ export default {
     return {
       dicts: {
         sort: [
-          { key: 0, title: '倒序' },
-          { key: 1, title: '正序' }
+          { key: 'DESC', title: '倒序' },
+          { key: 'ASC', title: '正序' }
         ],
         mode: [
           { key: 0, title: '用户名', placeholder: '水友ID' },
@@ -77,7 +77,7 @@ export default {
       params: {
         keyword: null,
         mode: 0,
-        sort: 0,
+        sort: 'DESC',
         dateRange: {
           from: null,
           to: null

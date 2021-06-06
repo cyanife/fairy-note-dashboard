@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import Utils from 'hey-utils';
 
+import Qs from 'qs';
 import axios from 'axios';
 import axiosConfig from '../common/axios-config';
 
@@ -10,7 +11,11 @@ import Requests from '../common/request';
 
 Vue.use(Vuex);
 
-const ajax = axios.create(axiosConfig);
+const ajax = axios.create({
+  ...axiosConfig,
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  transformRequest: [data => Qs.stringify(data, { arrayFormat: 'repeat' })]
+});
 
 export default new Vuex.Store({
   state: {
@@ -18,8 +23,7 @@ export default new Vuex.Store({
     token: Utils.getLocal(process.env.VUE_APP_ACCESS_TOKEN),
     siderCollapsed: false,
     endpoints: {
-      obtainToken: 'auth/jwt/login',
-      refreshToken: 'auth/jwt/refresh'
+      login: 'token'
     }
   },
   mutations: {
@@ -46,31 +50,19 @@ export default new Vuex.Store({
   },
   actions: {
     updateUser({ commit }) {
-      return Requests.Auth.getCurrentUser()
+      return Requests.Users.getCurrentUser()
         .then(res => {
           commit(SET_USER, res);
         })
         .catch(() => {
+          console.log('clear');
           commit(CLEAR_USER);
         });
     },
     login({ commit, state }, payload) {
-      return ajax.post(state.endpoints.obtainToken, payload).then(res => {
+      return ajax.post(state.endpoints.login, payload).then(res => {
         commit(UPDATE_TOKEN, res.data.access_token);
       });
-    },
-    refreshToken({ commit, state }) {
-      return ajax
-        .post(state.endpoints.refreshToken, {}, { authorization: 'Bearer ' + state.token })
-        .then(res => {
-          commit(UPDATE_TOKEN, res.data.access_token);
-          return res.data.access_token;
-        })
-        .catch(err => {
-          commit(CLEAR_USER);
-          commit(REMOVE_TOKEN);
-          throw err;
-        });
     },
     logout({ commit }) {
       commit(CLEAR_USER);
@@ -88,7 +80,7 @@ export default new Vuex.Store({
       return state.user;
     },
     isAuthed: state => {
-      return state.user && state.user.email;
+      return state.user && state.user.is_active;
     },
     siderCollapsed: state => {
       return state.siderCollapsed;

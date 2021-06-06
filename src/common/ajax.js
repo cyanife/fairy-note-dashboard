@@ -18,9 +18,9 @@ instance.interceptors.response.use(
   },
   err => {
     if (err && err.response) {
-      const { status, config } = err.response;
+      const { status } = err.response;
       if (status === 401) {
-        return refreshToken(config);
+        return logout(err);
       } else {
         switch (status) {
           case 400:
@@ -66,10 +66,10 @@ instance.interceptors.response.use(
   }
 );
 
-function refreshToken(config) {
-  return store.dispatch('refreshToken').then(newToken => {
-    config.headers.authorization = 'Bearer ' + newToken;
-    return instance(config);
+function logout(err) {
+  return store.dispatch('logout').then(() => {
+    err.message = '未认证';
+    return Promise.reject(err);
   });
 }
 

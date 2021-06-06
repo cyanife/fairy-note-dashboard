@@ -137,8 +137,9 @@ export default {
   methods: {
     submit() {
       this.loading = true;
+      // this.$router.push({ name: 'Home' });
       this.$store
-        .dispatch('login')
+        .dispatch('login', this.login)
         .then(() => {
           return this.$store.dispatch('updateUser');
         })
