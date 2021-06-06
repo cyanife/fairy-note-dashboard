@@ -1,0 +1,5 @@
+export const SET_USER = 'SET_USER';
+export const CLEAR_USER = 'CLEAR_USER';
+export const UPDATE_TOKEN = 'UPDATE_TOKEN';
+export const REMOVE_TOKEN = 'REMOVE_TOKEN';
+export const UPDATE_SIDERCOLLAPSE = 'UPDATE_SIDERCOLLAPSE';

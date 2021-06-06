@@ -1,0 +1,29 @@
+{
+  "editor.fontSize": 16,
+  "editor.formatOnType": false,
+  "vetur.format.defaultFormatterOptions": {
+    "prettyhtml": {
+      "printWidth": 150
+    }
+  },
+  //根据文件后缀名定义vue文件类型
+  "files.associations": {
+    "*.vue": "vue"
+  },
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+  "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": true,
+  //  #让prettier使用eslint的代码格式进行校验 
+  "prettier.eslintIntegration": true,
+  //配置 ESLint 检查的文件类型
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "vue"
+  ],
+  //保存自动格式化
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "search.useIgnoreFiles": false
+}
